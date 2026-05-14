@@ -8,7 +8,8 @@
     "paths": {
       "@penumbra/core": ["../../packages/core/src/index.ts"],
       "@penumbra/providers": ["../../packages/providers/src/index.ts"],
-      "@penumbra/types": ["../../packages/types/src/index.ts"]
+      "@penumbra/types": ["../../packages/types/src/index.ts"],
+      "@penumbra/db": ["../../packages/db/src/index.ts"]
     }
   },
   "include": ["src/**/*"]

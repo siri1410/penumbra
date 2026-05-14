@@ -42,7 +42,8 @@ export class AnthropicProvider implements Provider {
   async *chat(messages: ChatMessage[], opts: ChatOptions = {}): AsyncIterable<ChatChunk> {
     const { systemPrompt, body } = this.buildRequest(messages, opts);
 
-    const isBrowser = typeof window !== 'undefined' && typeof process === 'undefined';
+    const g = globalThis as { window?: unknown; process?: unknown };
+    const isBrowser = typeof g.window !== 'undefined' && typeof g.process === 'undefined';
     const res = await fetch(`${this.baseUrl}/v1/messages`, {
       method: 'POST',
       signal: opts.signal,

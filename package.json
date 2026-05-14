@@ -21,7 +21,8 @@
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
     "clean": "pnpm -r --parallel exec rm -rf dist build node_modules/.cache",
-    "package": "pnpm --filter @penumbra/desktop package"
+    "package": "pnpm --filter @penumbra/desktop package",
+    "postinstall": "pnpm --filter @penumbra/desktop run rebuild-native"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

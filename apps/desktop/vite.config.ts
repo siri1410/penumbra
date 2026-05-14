@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react';
 import electron from 'vite-plugin-electron/simple';
 import { fileURLToPath, URL } from 'node:url';
 
+const PENUMBRA_DB = fileURLToPath(new URL('../../packages/db/src/index.ts', import.meta.url));
+
 export default defineConfig({
   resolve: {
     alias: {
@@ -13,6 +15,7 @@ export default defineConfig({
       '@penumbra/types': fileURLToPath(
         new URL('../../packages/types/src/index.ts', import.meta.url),
       ),
+      '@penumbra/db': PENUMBRA_DB,
     },
   },
   plugins: [
@@ -24,7 +27,7 @@ export default defineConfig({
           build: {
             outDir: 'dist-electron',
             rollupOptions: {
-              external: ['electron'],
+              external: ['electron', 'better-sqlite3'],
             },
           },
         },
@@ -36,6 +39,10 @@ export default defineConfig({
             outDir: 'dist-electron',
             rollupOptions: {
               external: ['electron'],
+              output: {
+                format: 'cjs',
+                entryFileNames: '[name].cjs',
+              },
             },
           },
         },
@@ -49,5 +56,8 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
+  },
+  optimizeDeps: {
+    exclude: ['better-sqlite3'],
   },
 });

@@ -38,11 +38,11 @@ Inspired by [free-cluely](https://github.com/Prat011/free-cluely) and rebuilt fr
 - **Truly invisible.** Frameless translucent window, always on top, hidden from screen sharing (`setContentProtection`), no taskbar entry.
 - **Multi-provider, no lock-in.** Anthropic Claude, OpenAI GPT, Google Gemini, Ollama, and any OpenAI-compatible endpoint — OpenRouter, Groq, Together, Fireworks, LM Studio, LocalAI, vLLM, llama.cpp.
 - **Vision built in.** `Cmd/Ctrl + H` captures the screen, sends it to a vision-capable model, and streams the answer back.
-- **Streaming chat with memory.** Multi-turn conversations stay in the session until you click ↻.
-- **Local-first option.** Point it at Ollama or LM Studio and Penumbra never touches the cloud.
-- **Encrypted key storage.** API keys are stored via Electron `safeStorage` (OS keychain) — never in plain text.
+- **Persistent chat history.** Every turn is saved to a local SQLite database. Quit, restart, pick up where you left off. Browse, search, rename, delete past conversations.
+- **Local-first by default.** All app state lives in a single SQLite file at `userData/penumbra.db`. API keys are encrypted via OS keychain. Nothing leaves your machine except your prompts to the provider you configured.
+- **Pluggable models.** Point it at Ollama or LM Studio and Penumbra never touches the cloud.
 - **Global hotkeys.** Toggle, capture, focus, settings. All remappable.
-- **Browser dev mode.** The Vite dev URL also works in any browser for fast UI iteration — chat works there too via a localStorage fallback.
+- **Browser dev mode.** The Vite dev URL works in any browser for fast UI iteration — chat persists to `localStorage` there.
 
 ---
 
@@ -118,6 +118,7 @@ penumbra/
 │   └── desktop/          Electron + React 18 + Vite + Tailwind overlay app
 └── packages/
     ├── core/             Chat session, system prompts, default config
+    ├── db/               SQLite schema + repos (better-sqlite3)
     ├── providers/        Unified Provider interface + 5 adapters
     └── types/            Shared TypeScript types (no runtime deps)
 ```
@@ -149,6 +150,22 @@ interface Provider {
 That's the entire extension surface.
 
 ---
+
+## 🔒 Privacy & local data
+
+Penumbra is built so your conversations stay yours.
+
+- **Single local database.** All conversations, messages, configuration, and provider settings live in one SQLite file at `userData/penumbra.db`. Quitting and re-launching restores the most recent conversation; the drawer (`≡`) lists everything.
+- **Encrypted API keys.** Keys never go into the SQLite file. They live in `userData/secrets.bin`, encrypted via Electron `safeStorage` (macOS Keychain, Windows DPAPI, Linux libsecret where available).
+- **No telemetry, no phone-home.** The only outbound traffic is your prompts going to the provider you configured. Penumbra itself calls nothing.
+- **Local models supported.** Point at Ollama, LM Studio, vLLM, or llama.cpp and nothing leaves your machine.
+- **Delete on demand.** Drawer → kebab → Delete removes a conversation and cascades to its messages. "Delete all" in the drawer footer nukes everything.
+- **Portable.** The whole DB is one file — back it up, sync it, inspect it with any SQLite tool.
+
+> Userdata locations:
+> - **macOS:** `~/Library/Application Support/@penumbra/desktop/`
+> - **Windows:** `%APPDATA%\@penumbra\desktop\`
+> - **Linux:** `~/.config/@penumbra/desktop/`
 
 ## 🗺 Roadmap
 

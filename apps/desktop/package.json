@@ -9,15 +9,20 @@
     "dev": "vite",
     "build": "vite build",
     "package": "pnpm run build && electron-builder",
+    "rebuild-native": "electron-rebuild -f -w better-sqlite3",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.electron.json",
     "start": "electron ."
   },
   "dependencies": {
     "@penumbra/core": "workspace:*",
+    "@penumbra/db": "workspace:*",
     "@penumbra/providers": "workspace:*",
-    "@penumbra/types": "workspace:*"
+    "@penumbra/types": "workspace:*",
+    "better-sqlite3": "^11.5.0"
   },
   "devDependencies": {
+    "@electron/rebuild": "^3.7.0",
+    "@types/better-sqlite3": "^7.6.11",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",

@@ -23,7 +23,7 @@ jobs:
       - name: Enable corepack
         run: corepack enable
 
-      - name: Install dependencies
+      - name: Install dependencies (includes electron-rebuild for better-sqlite3)
         run: pnpm install --frozen-lockfile
 
       - name: Typecheck

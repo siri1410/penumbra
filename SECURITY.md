@@ -23,10 +23,12 @@ Penumbra is in active development. We currently support only the latest `main` b
 
 Penumbra runs as a local desktop application. Notable surfaces:
 
-- **API keys** — stored locally via Electron `safeStorage` (OS keychain on macOS/Windows; libsecret on Linux when available; falls back to plaintext on disk with a warning if unavailable).
-- **Screenshots** — captured locally, sent to the configured provider over HTTPS, then discarded by the app. If `autoDeleteScreenshots` is enabled (default) the in-memory copy is dropped after the request.
+- **API keys** — stored locally in `userData/secrets.bin`, encrypted via Electron `safeStorage` (OS keychain on macOS/Windows; libsecret on Linux when available; falls back to plaintext on disk with a warning if unavailable). Keys are deliberately kept out of the SQLite database.
+- **Conversation database** — all chat history, config, and provider settings live in `userData/penumbra.db` (a single SQLite file). It is **not** encrypted at rest — it relies on filesystem permissions. If you need encryption-at-rest, use full-disk encryption (FileVault / BitLocker / LUKS).
+- **Screenshots** — captured locally, sent to the configured provider over HTTPS, then discarded by the app. If `autoDeleteScreenshots` is enabled (default) the in-memory copy is dropped after the request. The base64 image is persisted in the conversation message — see the next bullet.
+- **Persisted images in messages** — when you `Cmd+H` a screenshot and ask about it, the image is saved as part of the message content in SQLite (so the conversation can replay correctly). Deleting the conversation cascade-deletes its messages and images.
 - **Network egress** — every request goes to the active provider's API. Penumbra does not phone home or call any other endpoint.
-- **Renderer process** — runs with `contextIsolation: true`, `nodeIntegration: false`, and a minimal preload bridge. Renderer code cannot directly touch the filesystem or shell.
+- **Renderer process** — runs with `contextIsolation: true`, `nodeIntegration: false`, and a minimal preload bridge. Renderer code cannot directly touch the filesystem or shell — all data access flows through narrow IPC handlers backed by `@penumbra/db`.
 
 ## Things to know
 

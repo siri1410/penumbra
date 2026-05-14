@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022"],
+    "noEmit": true,
+    "paths": {
+      "@penumbra/core": ["../../packages/core/src/index.ts"],
+      "@penumbra/providers": ["../../packages/providers/src/index.ts"],
+      "@penumbra/types": ["../../packages/types/src/index.ts"]
+    }
+  },
+  "include": ["electron/**/*", "../../packages/**/src/**/*"]
+}

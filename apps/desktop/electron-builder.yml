@@ -1,0 +1,22 @@
+appId: dev.penumbra.desktop
+productName: Penumbra
+directories:
+  output: release
+  buildResources: assets
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+mac:
+  category: public.app-category.productivity
+  target:
+    - dmg
+    - zip
+win:
+  target:
+    - nsis
+    - portable
+linux:
+  target:
+    - AppImage
+    - deb

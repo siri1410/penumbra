@@ -1,0 +1,31 @@
+{
+  "name": "penumbra",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Your AI in the margins — an invisible desktop overlay for Claude, GPT, Gemini, and local models.",
+  "license": "MIT",
+  "author": "Siri Y",
+  "homepage": "https://github.com/siri1410/penumbra",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/siri1410/penumbra.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm --filter @penumbra/desktop dev",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "clean": "pnpm -r --parallel exec rm -rf dist build node_modules/.cache",
+    "package": "pnpm --filter @penumbra/desktop package"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  }
+}

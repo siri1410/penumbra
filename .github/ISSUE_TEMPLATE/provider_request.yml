@@ -1,0 +1,37 @@
+name: New provider request
+description: Request support for a new AI provider
+labels: ["enhancement", "provider"]
+body:
+  - type: input
+    id: provider-name
+    attributes:
+      label: Provider name
+      placeholder: Mistral La Plateforme, Together AI, Cohere…
+    validations:
+      required: true
+  - type: input
+    id: docs-url
+    attributes:
+      label: API docs URL
+    validations:
+      required: true
+  - type: dropdown
+    id: compatible
+    attributes:
+      label: Is this OpenAI-compatible?
+      description: Many providers expose an OpenAI-compatible `/v1/chat/completions` endpoint, which Penumbra already supports out of the box.
+      options:
+        - "Yes — works with the existing OpenAI-compatible adapter"
+        - "No — needs a dedicated adapter"
+        - "Not sure"
+    validations:
+      required: true
+  - type: checkboxes
+    id: features
+    attributes:
+      label: Required features
+      options:
+        - label: Streaming
+        - label: Vision (image input)
+        - label: Tool use
+        - label: Local / self-hosted

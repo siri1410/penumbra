@@ -42,6 +42,7 @@ export class AnthropicProvider implements Provider {
   async *chat(messages: ChatMessage[], opts: ChatOptions = {}): AsyncIterable<ChatChunk> {
     const { systemPrompt, body } = this.buildRequest(messages, opts);
 
+    const isBrowser = typeof window !== 'undefined' && typeof process === 'undefined';
     const res = await fetch(`${this.baseUrl}/v1/messages`, {
       method: 'POST',
       signal: opts.signal,
@@ -49,6 +50,7 @@ export class AnthropicProvider implements Provider {
         'content-type': 'application/json',
         'x-api-key': this.apiKey,
         'anthropic-version': '2023-06-01',
+        ...(isBrowser ? { 'anthropic-dangerous-direct-browser-access': 'true' } : {}),
       },
       body: JSON.stringify({
         model: opts.model ?? this.defaultModel,

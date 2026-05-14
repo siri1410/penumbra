@@ -1,0 +1,61 @@
+name: Bug report
+description: Something isn't working
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear, concise description of the bug.
+      placeholder: When I press Cmd+H, the window…
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open Penumbra
+        2. Configure provider …
+        3. Press …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: false
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Active provider
+      options:
+        - Anthropic (Claude)
+        - OpenAI
+        - Google Gemini
+        - Ollama (local)
+        - OpenAI-compatible (other)
+        - Not provider-specific
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS and version
+      placeholder: macOS 14.5, Ubuntu 24.04, Windows 11 23H2…
+    validations:
+      required: true
+  - type: input
+    id: penumbra-version
+    attributes:
+      label: Penumbra version / commit
+      placeholder: 0.1.0 or commit sha
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Paste relevant DevTools console output or attach screenshots. Redact API keys.
+      render: shell
